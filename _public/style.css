@@ -1,0 +1,22 @@
+* {
+  box-sizing:border-box;
+} 
+
+.header {
+  text-align: center;
+  background-color:cornsilk
+}
+
+.listContainer {
+  display: flex;
+  justify-content: center;
+}
+
+/* .listHeader {
+  padding: 2rem;
+} */
+
+ul {
+  list-style-type: none;
+  padding: 2rem;
+}
