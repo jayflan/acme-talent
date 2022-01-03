@@ -2,8 +2,8 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const morgan = require('morgan');
-const db = require('./_db');
-const { Client, Skill, ClientSkills } = require ('./_db/index').models;
+// const db = require('./_db');
+// const { Client, Skill, ClientSkills } = require ('./_db/index').models;
 
 //middleware
 app.use(morgan('dev'));
@@ -16,32 +16,27 @@ app.use('/dist', express.static(path.join(__dirname, '..', 'dist')))
 
 
 //rounter/api path
-// app.use('api', require('./_api')) <--turned off until api test complete
+app.use('api', require('./_api'))
 
 //primary index.html get
 app.get('/', (req, res)=> res.sendFile(path.join(__dirname, '..', '_client', 'index.html')))
 
 //api testing & final setup
-app.get('/api/clients', async(req, res)=> {
-  try {
-    const data = await Client.findAll({
-      // include: [
-      //   {
-      //     model: ClientSkills
-      //   }
-      // ],
-      include: [
-        {
-          model: Skill
-        }
-      ]
-    });
-    res.send(data);
-  }
-  catch(err) {
-    console.log(err);
-  }
-})
+// app.get('/api/clients', async(req, res)=> {
+//   try {
+//     const data = await Client.findAll({
+//       include: [
+//         {
+//           model: Skill
+//         }
+//       ]
+//     });
+//     res.send(data);
+//   }
+//   catch(err) {
+//     console.log(err);
+//   }
+// })
 
 
 //error handling
