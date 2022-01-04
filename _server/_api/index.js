@@ -1,4 +1,4 @@
 const router = require('express').Router();
-router.use('/routes',require('./routes'))
+router.use('/',require('./routes'))
 
 module.exports = router

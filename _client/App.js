@@ -1,15 +1,20 @@
 import React, { Component } from 'react'
 import { HashRouter as Router, Route, Switch, Link } from 'react-router-dom'
-import Agency from './Agency'
+import Agency from './components/Agency'
+import { fetchClients, fetchSkills } from './store'
 import { connect } from 'react-redux'
 
 class App extends Component {
+  componentDidMount() {
+    this.props.loadClients()
+    this.props.loadSkills()
+  }
+
 
   render() {
     return (
       <Router>
         <div id='main'>
-          {/* <Agency /> */}
           <Route path='/' component={Agency} />
         </div>
       </Router>
@@ -18,4 +23,14 @@ class App extends Component {
 
 }
 
-export default (App)
+export default connect(
+  (state)=> {
+    return state
+  },
+  (dispatch)=> {
+    return {
+      loadClients: ()=> dispatch(fetchClients()),
+      loadSkills: ()=> dispatch(fetchSkills())
+    }
+  }
+)(App)

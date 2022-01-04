@@ -16,7 +16,7 @@ app.use('/dist', express.static(path.join(__dirname, '..', 'dist')))
 
 
 //rounter/api path
-app.use('api', require('./_api'))
+app.use('/api', require('./_api'))
 
 //primary index.html get
 app.get('/', (req, res)=> res.sendFile(path.join(__dirname, '..', '_client', 'index.html')))
