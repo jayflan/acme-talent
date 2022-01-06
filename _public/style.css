@@ -1,7 +1,8 @@
 * {
   box-sizing:border-box;
 } 
-
+ 
+/*classes*/
 .header {
   text-align: center;
   background-color:cornsilk
@@ -12,11 +13,33 @@
   justify-content: center;
 }
 
+.clientContainer {
+  text-align: center;
+}
+
+/* .clientHeader {
+  /* padding: 5em;
+  margin: 2em; */
+/* } */
+
 /* .listHeader {
   padding: 2rem;
 } */
 
+/* objects */
 ul {
   list-style-type: none;
   padding: 2rem;
 }
+
+a {
+  border-bottom: solid 0.1px gray;
+  text-decoration: none;
+  color: black;
+}
+
+div > .backLink {
+  margin: 2rem;
+}
+
+/* indeces */

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 
 class Agency extends Component {
@@ -17,7 +18,9 @@ class Agency extends Component {
           <h4 className='listHeader'>Clients</h4>
             {clients.map(client => 
               <li key={client.id}>
-                {`${client.clientName} (${client.skills.length})`}
+                <Link to={`/${client.id}`}>
+                  {`${client.clientName} (${client.skills.length})`}
+                </Link>
               </li>
             )}
         </ul>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { HashRouter as Router, Route, Switch, Link } from 'react-router-dom'
 import Agency from './components/Agency'
+import Client from './components/Client'
 import { fetchClients, fetchSkills } from './store'
 import { connect } from 'react-redux'
 
@@ -15,12 +16,12 @@ class App extends Component {
     return (
       <Router>
         <div id='main'>
-          <Route path='/' component={Agency} />
+        <Route exact path='/:id' component={Client} />
+          <Route exact path='/' component={Agency} />
         </div>
       </Router>
     )
   }
-
 }
 
 export default connect(
