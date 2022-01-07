@@ -1,16 +1,13 @@
-const Sequelize = require('sequelize');
-const Client = require('./Client');
-const { STRING } = Sequelize
+const Sequelize = require('sequelize')
+const { INTEGER } = Sequelize
 const conn = require('./conn');
 
-const ClientSkills = conn.define('clientSkills', {
-  // skillName: {
-  //   type: STRING,
-  //   references: {
-  //     model: Skill,
-  //     key: 'id'
-  //   }
+const ClientSkill = conn.define('clientSkills', {
+  // clientSkillId: INTEGER
+  // id: {
+  //   type: INTEGER,
+  //   primaryKey: true
   // }
 });
 
-module.exports = ClientSkills;
+module.exports = ClientSkill;

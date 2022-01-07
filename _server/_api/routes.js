@@ -33,9 +33,18 @@ router.get('/skills', async(req, res, next) => {
   }
 })
 
+//GET single client id for client page
 router.get('/:id', async(req, res, next) => {
   try {
     res.send(await Client.findByPk(req.params.id))
+  } catch(err) {
+    next(err)
+  }
+})
+//DELETE skill from clientSkill join model
+router.delete('/:id', async(req, res, next) => {
+  try {
+    // const skill = 
   } catch(err) {
     next(err)
   }

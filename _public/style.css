@@ -17,6 +17,11 @@
   text-align: center;
 }
 
+.selectContainer {
+  margin: 2rem;
+  font-size: large;
+}
+
 /* .clientHeader {
   /* padding: 5em;
   margin: 2em; */
@@ -40,6 +45,14 @@ a {
 
 div > .backLink {
   margin: 2rem;
+}
+
+div.clientContainer {
+  font-size: large;
+}
+
+div.listContainer {
+  font-size: large;
 }
 
 /* indeces */

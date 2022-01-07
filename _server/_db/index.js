@@ -1,11 +1,11 @@
 const conn = require('./conn')
 const Client = require('./Client')
 const Skill = require('./Skill')
-const ClientSkills = require('./ClientSkills')
+const ClientSkill = require('./ClientSkills')
 
 //db/table relationships
-Client.belongsToMany(Skill, { through: ClientSkills})
-Skill.belongsToMany(Client, { through: ClientSkills})
+Client.belongsToMany(Skill, { through: ClientSkill})
+Skill.belongsToMany(Client, { through: ClientSkill})
 // Client.hasMany(ClientSkills);
 // ClientSkills.hasMany(Skill);
 
@@ -36,6 +36,6 @@ module.exports = {
   models: {
     Client,
     Skill,
-    ClientSkills
+    ClientSkill
   }
 }

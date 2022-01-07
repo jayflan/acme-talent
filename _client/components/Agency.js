@@ -4,10 +4,7 @@ import { Link } from 'react-router-dom'
 
 
 class Agency extends Component {
-  constructor(props) {
-    super(props)
-
-  }
+  
   render() {
     const clients = this.props.clients
     const skills = this.props.skills
