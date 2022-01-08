@@ -41,6 +41,14 @@ router.get('/client/:id', async(req, res, next) => {
     next(err)
   }
 })
+//GET single skill id for skill page
+router.get('/skill/:id', async(req, res, next) => {
+  try {
+    res.send(await Skill.findByPk(req.params.id))
+  } catch(err) {
+    next(err)
+  }
+})
 //GET all clientSkills 
 router.get('/clientskills', async(req, res, next) => {
   try {

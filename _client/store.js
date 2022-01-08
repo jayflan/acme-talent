@@ -28,11 +28,10 @@ const _setClientSkills = (skills) => {
     skills
   }
 }
-const _deleteClientSkill = (skill, clientId) => {
+const _deleteClientSkill = (skill) => {
   return {
     type: DELETE_CLIENTSKILL,
-    skill,
-    clientId
+    skill
   }
 }
 
@@ -55,10 +54,10 @@ export const fetchClientSkills = () => {
     dispatch(_setClientSkills(data))
   }
 }
-export const deleteClientSkill = (id, history, clientId) => {
+export const deleteClientSkill = (id, history) => {
   return async(dispatch)=> {
     const data = await axios.delete(`/api/${id}`)
-    dispatch(_deleteClientSkill(data, clientId))
+    dispatch(_deleteClientSkill(data))
     // history.push('/')
   }
 }

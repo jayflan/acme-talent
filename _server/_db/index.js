@@ -6,8 +6,6 @@ const ClientSkill = require('./ClientSkills')
 //db/table relationships
 Client.belongsToMany(Skill, { through: ClientSkill})
 Skill.belongsToMany(Client, { through: ClientSkill})
-Client.hasMany(ClientSkill);
-// ClientSkill.hasMany(Skill);
 
 const syncAndSeed = async() => {
   try {
@@ -19,7 +17,7 @@ const syncAndSeed = async() => {
     const [singing, dancing, acting, juggling, plate_spinning, long_division] = await Promise.all(
       ['singing', 'dancing', 'acting', 'juggling', 'plate spinning', 'long division'].map(name => Skill.create({ skillName: name })))
     
-    //Remember!!!: This is how you create manyToMany entrees!!!:
+    //Remember!!!: This is how you create manyToMany entries!!!:
     moe.addSkill(singing)
     moe.addSkill(juggling)
     moe.addSkill(plate_spinning)

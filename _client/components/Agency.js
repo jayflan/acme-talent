@@ -15,7 +15,7 @@ class Agency extends Component {
           <h4 className='listHeader'>Clients</h4>
             {clients.map(client => 
               <li key={client.id}>
-                <Link to={`/${client.id}`}>
+                <Link to={`/client/${client.id}`}>
                   {`${client.clientName} (${client.skills.length})`}
                 </Link>
               </li>

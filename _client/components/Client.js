@@ -6,14 +6,20 @@ import { deleteClientSkill } from '../store'
 class Client extends Component {
 
   render() {
-    const { client, history, deleteClientSkill } = this.props;
-    const { clientName, skills } = client;
+    const props = this.props
+    console.log(props)
+    const {history, deleteClientSkill } = this.props;
+    const client = props.client
+    const stateSkills = props.state.skills
 
-    const stateSkills = this.props.state.skills
+    //REMEMBER: Due to multiple renders, need to include a return null to keep errors away
+    if(!client) {
+      return null
+    }
+    
 
-    console.log(this.props);
-
-    const clientSkillArr = skills.reduce((acc,skill) => {
+    //array of skills for select dropdown to only show what client doesn't already have
+    const clientSkillArr = client.skills.reduce((acc,skill) => {
       acc.push(skill.skillName)
       return acc
     },[])
@@ -21,16 +27,17 @@ class Client extends Component {
     return (
       <div>
       <div className='clientContainer'>
-        <h2 className='clientHeader'>{clientName}</h2>
+        <h2 className='clientHeader'>{client.clientName}</h2>
         <p>
-          {skills.length !== 0 ? `${clientName} has the following skills:` : `${clientName} has NO skills.`}
+          {client.skills.length !== 0 ? `${client.clientName} has the following skills:` : `${client.clientName} has NO skills.`}
         </p>
         <div>
-          {skills.map((skill, idx) => {
-            if(idx === skills.length - 1) {
+          {client.skills.map((skill, idx) => { 
+            {if(idx === client.skills.length - 1) {
               return <span key={skill.id}>{skill.skillName}.<button className='deleteBtn' onClick={()=>{ deleteClientSkill(skill.clientSkills.id, history) }}>x</button></span>
             } else {  
               return <span key={skill.id}>{skill.skillName}<button className='deleteBtn' onClick={()=>{ deleteClientSkill(skill.clientSkills.id, history) }}>x</button> and </span>
+              }
             }  
           })}
         </div>
@@ -60,9 +67,9 @@ export default connect(
     const client = state.clients.find(currClient => currClient.id === match.params.id * 1)
     return { state, client }
   },
-  (dispatch, { history, match }) => {
+  (dispatch, { history }) => {
     return {
-      deleteClientSkill: (id) => dispatch(deleteClientSkill(id, history, match.params.id * 1))
+      deleteClientSkill: (id) => dispatch(deleteClientSkill(id, history))
     }
   } 
 )(Client)
