@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const morgan = require('morgan');
-const { Client, Skill, ClientSkills } = require('./_db').models
+const { Client, Skill, ClientSkill } = require('./_db').models
 // const db = require('./_db');
 // const { Client, Skill, ClientSkills } = require ('./_db/index').models;
 
@@ -25,7 +25,7 @@ app.get('/', (req, res)=> res.sendFile(path.join(__dirname, '..', '_client', 'in
 //api testing & final setup
 // app.get('/api/clientskill', async(req, res)=> {
 //   try {
-//     const data = await ClientSkills.findAll();
+//     const data = await ClientSkill.findAll();
 //     console.log(data);
 //     res.send(data);
 //   }
@@ -33,7 +33,6 @@ app.get('/', (req, res)=> res.sendFile(path.join(__dirname, '..', '_client', 'in
 //     console.log(err);
 //   }
 // })
-
 
 //error handling
 app.use((req, res, next) => {

@@ -1,6 +1,6 @@
 const router = require('express').Router() //<--remember ()!!!!!!
-const { Client, Skill } = require('../_db').models
-
+const { Client, Skill, ClientSkill } = require('../_db').models
+//GET all data from Client with Skill association
 router.get('/clients', async(req, res, next) => {
   try {
     const data = await Client.findAll({
@@ -16,7 +16,7 @@ router.get('/clients', async(req, res, next) => {
     next(err);
   }
 })
-
+//Get all data from Skill model with Client association
 router.get('/skills', async(req, res, next) => {
   try {
     const data = await Skill.findAll({
@@ -34,17 +34,28 @@ router.get('/skills', async(req, res, next) => {
 })
 
 //GET single client id for client page
-router.get('/:id', async(req, res, next) => {
+router.get('/client/:id', async(req, res, next) => {
   try {
     res.send(await Client.findByPk(req.params.id))
   } catch(err) {
     next(err)
   }
 })
-//DELETE skill from clientSkill join model
+//GET all clientSkills 
+router.get('/clientskills', async(req, res, next) => {
+  try {
+    const clientSkills = await ClientSkill.findAll() 
+    res.send(clientSkills)
+  } catch(err) {
+    next(err)
+  }
+})
+//DELETE skill from clientSkill join model using clientSkills.id
 router.delete('/:id', async(req, res, next) => {
   try {
-    // const skill = 
+    const skill = await ClientSkill.findByPk(req.params.id)
+    await skill.destroy()
+    res.send(skill);
   } catch(err) {
     next(err)
   }

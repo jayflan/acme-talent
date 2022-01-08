@@ -6,8 +6,8 @@ const ClientSkill = require('./ClientSkills')
 //db/table relationships
 Client.belongsToMany(Skill, { through: ClientSkill})
 Skill.belongsToMany(Client, { through: ClientSkill})
-// Client.hasMany(ClientSkills);
-// ClientSkills.hasMany(Skill);
+Client.hasMany(ClientSkill);
+// ClientSkill.hasMany(Skill);
 
 const syncAndSeed = async() => {
   try {

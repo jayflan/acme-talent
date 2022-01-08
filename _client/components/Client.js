@@ -1,20 +1,23 @@
 import React, { Component} from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { deleteClientSkill } from '../store'
 
 class Client extends Component {
 
-
   render() {
-    const { client, state } = this.props;
+    const { client, history, deleteClientSkill } = this.props;
     const { clientName, skills } = client;
-    const stateSkills = state.skills
+
+    const stateSkills = this.props.state.skills
+
+    console.log(this.props);
 
     const clientSkillArr = skills.reduce((acc,skill) => {
       acc.push(skill.skillName)
       return acc
     },[])
-  
+
     return (
       <div>
       <div className='clientContainer'>
@@ -25,9 +28,9 @@ class Client extends Component {
         <div>
           {skills.map((skill, idx) => {
             if(idx === skills.length - 1) {
-              return <span key={skill.id}>{skill.skillName}.<button className='deleteBtn'>x</button></span>
+              return <span key={skill.id}>{skill.skillName}.<button className='deleteBtn' onClick={()=>{ deleteClientSkill(skill.clientSkills.id, history) }}>x</button></span>
             } else {  
-              return <span key={skill.id}>{skill.skillName}<button className='deleteBtn'>x</button> and </span>
+              return <span key={skill.id}>{skill.skillName}<button className='deleteBtn' onClick={()=>{ deleteClientSkill(skill.clientSkills.id, history) }}>x</button> and </span>
             }  
           })}
         </div>
@@ -56,5 +59,10 @@ export default connect(
   (state, { match }) => {
     const client = state.clients.find(currClient => currClient.id === match.params.id * 1)
     return { state, client }
+  },
+  (dispatch, { history, match }) => {
+    return {
+      deleteClientSkill: (id) => dispatch(deleteClientSkill(id, history, match.params.id * 1))
+    }
   } 
 )(Client)

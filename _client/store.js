@@ -6,6 +6,8 @@ import axios from 'axios'
 //action types
 const SET_CLIENTS = 'SET_CLIENTS' 
 const SET_SKILLS = 'SET_SKILLS'
+const SET_CLIENTSKILLS = 'SET_CLIENTSKILLS' 
+const DELETE_CLIENTSKILL = 'DELETE_CLIENTSKILL'
 
 //action creators
 const _setClients = (clients) => {
@@ -20,18 +22,44 @@ const _setSkills = (skills) => {
     skills
   }
 }
+const _setClientSkills = (skills) => {
+  return {
+    type: SET_CLIENTSKILLS,
+    skills
+  }
+}
+const _deleteClientSkill = (skill, clientId) => {
+  return {
+    type: DELETE_CLIENTSKILL,
+    skill,
+    clientId
+  }
+}
 
 //thunks
 export const fetchClients = () => {
   return async(dispatch)=> {
-    const data = (await axios('/api/clients')).data
+    const data = (await axios.get('/api/clients')).data
     dispatch(_setClients(data))
   }
 }
 export const fetchSkills = () => {
   return async(dispatch)=> {
-    const data = (await axios('/api/skills')).data
+    const data = (await axios.get('/api/skills')).data
     dispatch(_setSkills(data))
+  }
+}
+export const fetchClientSkills = () => {
+  return async(dispatch)=> {
+    const data = (await axios.get(`/api/clientSkills`)).data
+    dispatch(_setClientSkills(data))
+  }
+}
+export const deleteClientSkill = (id, history, clientId) => {
+  return async(dispatch)=> {
+    const data = await axios.delete(`/api/${id}`)
+    dispatch(_deleteClientSkill(data, clientId))
+    // history.push('/')
   }
 }
 
@@ -42,6 +70,7 @@ const clientsReducer = (state = [], action) => {
   }
   
   return state;
+
 }
 
 const skillsReducer = (state = [], action) => {
@@ -51,12 +80,25 @@ const skillsReducer = (state = [], action) => {
   
   return state;
 }
+const clientSkillsReducer = (state = [], action) => {
+  if(action.type === SET_CLIENTSKILLS) {
+    return action.skills
+  }
+  if(action.type === DELETE_CLIENTSKILL) {
+    const mainState = state.filter(skill => skill.id !== action.skill.data.id)     
+    return mainState 
+  }
+  
+  return state;
+}
 
 //combining reducers
 const reducer = combineReducers({
   clients: clientsReducer,
-  skills: skillsReducer
+  skills: skillsReducer,
+  clientSkills: clientSkillsReducer
 })
+
 
 const store = createStore(reducer, applyMiddleware(thunk, loggingMiddleware))
 

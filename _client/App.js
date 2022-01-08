@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import { HashRouter as Router, Route, Switch, Link } from 'react-router-dom'
 import Agency from './components/Agency'
 import Client from './components/Client'
-import { fetchClients, fetchSkills } from './store'
+import { fetchClients, fetchSkills, fetchClientSkills } from './store'
 import { connect } from 'react-redux'
 
 class App extends Component {
   componentDidMount() {
     this.props.loadClients()
     this.props.loadSkills()
+    this.props.loadClientSkills()
   }
 
 
@@ -31,7 +32,8 @@ export default connect(
   (dispatch)=> {
     return {
       loadClients: ()=> dispatch(fetchClients()),
-      loadSkills: ()=> dispatch(fetchSkills())
+      loadSkills: ()=> dispatch(fetchSkills()),
+      loadClientSkills: ()=> dispatch(fetchClientSkills())
     }
   }
 )(App)
