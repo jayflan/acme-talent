@@ -7,11 +7,28 @@ class Client extends Component {
 
   render() {
     const props = this.props
-    console.log(props)
     const {history, deleteClientSkill } = this.props;
     const client = props.client
     const stateSkills = props.state.skills
 
+    //Client related data from each model
+      //aleady have a 'client' from Client model
+      const clientSkillIdArr = props.state.clientSkills.filter(skill => client.id === skill.clientId)
+      const skillNamesArr = props.state.skills.reduce((acc, skill) => {
+        clientSkillIdArr.forEach((clientSkill) => { 
+          if(clientSkill.skillId === skill.id) acc.push(skill)  
+        })
+        return acc
+      },[])
+      console.log(clientSkillIdArr)
+      console.log(skillNamesArr)
+
+      const outPutArr = clientSkillIdArr.reduce((acc, currClientSkill) => {
+        const skillsName = skillNamesArr.find((currSkill) => currSkill.id === currClientSkill.skillId)
+        acc.push({id: currClientSkill.id, skillId: currClientSkill.skillId, Name: skillsName.skillName })
+        return acc
+      }, [])
+      console.log(outPutArr)
     //REMEMBER: Due to multiple renders, need to include a return null to keep errors away
     if(!client) {
       return null
@@ -19,24 +36,23 @@ class Client extends Component {
     
 
     //array of skills for select dropdown to only show what client doesn't already have
-    const clientSkillArr = client.skills.reduce((acc,skill) => {
-      acc.push(skill.skillName)
+    const clientSkillArr = outPutArr.reduce((acc,skill) => {
+      acc.push(skill.Name)
       return acc
     },[])
-
     return (
       <div>
       <div className='clientContainer'>
         <h2 className='clientHeader'>{client.clientName}</h2>
         <p>
-          {client.skills.length !== 0 ? `${client.clientName} has the following skills:` : `${client.clientName} has NO skills.`}
+          {skillNamesArr.length !== 0 ? `${client.clientName} has the following skills:` : `${client.clientName} has NO skills.`}
         </p>
         <div>
-          {client.skills.map((skill, idx) => { 
-            {if(idx === client.skills.length - 1) {
-              return <span key={skill.id}>{skill.skillName}.<button className='deleteBtn' onClick={()=>{ deleteClientSkill(skill.clientSkills.id, history) }}>x</button></span>
+          {outPutArr.map((skill, idx) => { 
+            {if(idx === outPutArr.length - 1) {
+              return <span key={skill.id}>{skill.Name}.<button className='deleteBtn' onClick={()=>{ deleteClientSkill(skill.id, history) }}>x</button></span>
             } else {  
-              return <span key={skill.id}>{skill.skillName}<button className='deleteBtn' onClick={()=>{ deleteClientSkill(skill.clientSkills.id, history) }}>x</button> and </span>
+              return <span key={skill.id}>{skill.Name}<button className='deleteBtn' onClick={()=>{ deleteClientSkill(skill.id, history) }}>x</button> and </span>
               }
             }  
           })}
