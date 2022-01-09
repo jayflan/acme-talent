@@ -6,40 +6,41 @@ import { deleteClientSkill } from '../store'
 class Client extends Component {
 
   render() {
+
     const props = this.props
     const {history, deleteClientSkill } = this.props;
     const client = props.client
     const stateSkills = props.state.skills
 
-    //Client related data from each model
-      //aleady have a 'client' from Client model
-      const clientSkillIdArr = props.state.clientSkills.filter(skill => client.id === skill.clientId)
-      const skillNamesArr = props.state.skills.reduce((acc, skill) => {
-        clientSkillIdArr.forEach((clientSkill) => { 
-          if(clientSkill.skillId === skill.id) acc.push(skill)  
-        })
-        return acc
-      },[])
-      console.log(clientSkillIdArr)
-      console.log(skillNamesArr)
+  //MESSY variables to arrange/merge state data
+    //Array of ONLY client skills for this client in component state  
+    const clientSkillIdArr = props.state.clientSkills.filter(skill => client.id === skill.clientId)
+    //Array of ONLY skills with names for this client in component state
+    const skillNamesArr = props.state.skills.reduce((acc, skill) => {
+      clientSkillIdArr.forEach((clientSkill) => { 
+        if(clientSkill.skillId === skill.id) acc.push(skill)  
+      })
+      return acc
+    },[])
 
-      const outPutArr = clientSkillIdArr.reduce((acc, currClientSkill) => {
-        const skillsName = skillNamesArr.find((currSkill) => currSkill.id === currClientSkill.skillId)
-        acc.push({id: currClientSkill.id, skillId: currClientSkill.skillId, Name: skillsName.skillName })
-        return acc
-      }, [])
-      console.log(outPutArr)
-    //REMEMBER: Due to multiple renders, need to include a return null to keep errors away
-    if(!client) {
-      return null
-    }
-    
+    //Array w/ merged data for output of skill names on client on page
+    const outPutArr = clientSkillIdArr.reduce((acc, currClientSkill) => {
+      const skillsName = skillNamesArr.find((currSkill) => currSkill.id === currClientSkill.skillId)
+      acc.push({id: currClientSkill.id, skillId: currClientSkill.skillId, Name: skillsName.skillName })
+      return acc
+    }, [])
 
-    //array of skills for select dropdown to only show what client doesn't already have
+    //Array of skills for select dropdown to only show what client doesn't already have
     const clientSkillArr = outPutArr.reduce((acc,skill) => {
       acc.push(skill.Name)
       return acc
     },[])
+    
+  //REMEMBER: Due to multiple renders, need to include a return null on client-state to keep errors away
+    if(!client) {
+      return null
+    }
+    
     return (
       <div>
       <div className='clientContainer'>
@@ -60,10 +61,8 @@ class Client extends Component {
         <div className='selectContainer'>
           <select>
               {
-                stateSkills.map((currSkill) =>  {
-                  
+                stateSkills.map((currSkill) =>  {           
                   if(!clientSkillArr.includes(currSkill.skillName)) return <option key={currSkill.id}>{currSkill.skillName}</option>
-                  
                  })    
               }
           </select>
