@@ -18,9 +18,11 @@ class App extends Component {
     return (
       <Router>
         <div id='main'>
-          <Route exact path='/client/:id' component={Client} />
-          <Route exact path='/skill/:id' component={Skill} />
-          <Route exact path='/' component={Agency} />
+          <Switch>
+            <Route exact path='/client/:id' component={Client} />
+            <Route exact path='/skill/:id' component={Skill} />
+            <Route exact path='/' component={Agency} />
+          </Switch>
         </div>
       </Router>
     )
