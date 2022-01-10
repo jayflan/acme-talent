@@ -7,6 +7,7 @@ import axios from 'axios'
 const SET_CLIENTS = 'SET_CLIENTS' 
 const SET_SKILLS = 'SET_SKILLS'
 const SET_CLIENTSKILLS = 'SET_CLIENTSKILLS' 
+const UPDATE_SKILL = 'UPDATE_SKILL'
 const CREATE_CLIENTSKILL = 'CREATE_CLIENTSKILL'
 const DELETE_CLIENTSKILL = 'DELETE_CLIENTSKILL'
 
@@ -27,6 +28,12 @@ const _setClientSkills = (skills) => {
   return {
     type: SET_CLIENTSKILLS,
     skills
+  }
+}
+const _updateSkill = (skill) => {
+  return {
+    type: UPDATE_SKILL,
+    skill
   }
 }
 const _createClientSkill = (skill) => {
@@ -61,17 +68,23 @@ export const fetchClientSkills = () => {
     dispatch(_setClientSkills(data))
   }
 }
+export const updateSkill = (id, skill, history) => {
+  return async(dispatch)=> {
+    const  {data: created} = await axios.put(`/api/${id}`, skill)
+    dispatch(_updateSkill(created));
+    history.push('/');
+  }
+}
 export const createClientSkill = (id, skillId) => {
   return async(dispatch)=> {
     const {data: created} = await axios.post(`/api/${id}`, skillId)
     dispatch(_createClientSkill(created[0]))
   }
 }
-export const deleteClientSkill = (id, history) => {
+export const deleteClientSkill = (id) => {
   return async(dispatch)=> {
     const data = await axios.delete(`/api/${id}`)
     dispatch(_deleteClientSkill(data))
-    // history.push('/')
   }
 }
 
@@ -88,6 +101,11 @@ const clientsReducer = (state = [], action) => {
 const skillsReducer = (state = [], action) => {
   if(action.type === SET_SKILLS) {
     return action.skills
+  }
+  if(action.type === UPDATE_SKILL) {
+    return state.map(skill => 
+      skill.id === action.skill.id ? action.skill : skill
+    )
   }
   
   return state;

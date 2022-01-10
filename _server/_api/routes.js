@@ -59,6 +59,16 @@ router.get('/clientskills', async(req, res, next) => {
     next(err)
   }
 })
+//UPDATE skill in Skill model (adding general skill)
+router.put('/:id', async(req, res, next) => {
+  try {
+    const data = await Skill.findByPk(req.params.id)
+    data.update(req.body)
+    res.send(data) //REMEMBER <--send back the variable, not the update line!!!
+  } catch(err) {
+    next(err);
+  }
+})
 //CREATE skill from client page dropdown (adding it to a client's skills)
 router.post('/:id', async(req, res, next) => {
   try {
@@ -67,7 +77,6 @@ router.post('/:id', async(req, res, next) => {
     const addSkill = await Skill.findByPk(clientSkillId)
     const addClient = await Client.findByPk(req.params.id)
     const newRecord = await addClient.addSkill(addSkill)
-    console.log(newRecord[0]) 
   res.status(201).send(newRecord)
   } catch(err) {
     next(err)
