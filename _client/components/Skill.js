@@ -6,8 +6,18 @@ class Skill extends Component {
 
   render() {
     return (
-      <div>
-        <hr></hr>
+      <div className='formContainer'>
+        <form id='skill-form' onSubmit={()=>{}}>
+          <div className='form'>
+            <input name='skillName' value={'test'} onChange={()=>{}}></input>
+          </div>
+          <div className='form'>
+            <button type='submit' >Save</button>
+          </div>
+          <div className='form'>
+            <Link to='/'>Cancel</Link>
+          </div>
+        </form>
       </div>
     )
   }

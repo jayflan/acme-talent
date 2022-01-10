@@ -25,13 +25,20 @@ class Agency extends Component {
     }
   
     //sum function for client skills
-    const sumClientSkills = (clientId, clientSkillsArr) => {
-      return clientSkillsArr.reduce((acc, currSkill) => {
-        currSkill.clientId === clientId ? acc++ : ''
+    const sumClientSkills = (id, arr) => {
+      return arr.reduce((acc, currSkill) => {
+        currSkill.clientId === id ? acc++ : ''
         return acc
       }, 0)
     }
-    console.log(sumClientSkills(1, clientSkills))
+    //sum function for skills
+    const sumSkills = (id, arr) => {
+      return arr.reduce((acc, currSkill) => {
+        currSkill.skillId === id ? acc++ : ''
+        return acc
+      }, 0)
+    }
+    
     return (
       <div className='listContainer'>
       <div>
@@ -51,7 +58,9 @@ class Agency extends Component {
           <h4 className='listHeader'>Skills</h4>
           {skills.map(skill => 
               <li key={skill.id}>
-                {`${skill.skillName} (${skill.clients.length})`}
+                <Link to={`/skill/${skill.id}`}>
+                  {`${skill.skillName} (${sumSkills(skill.id, clientSkills)})`}
+                </Link>
               </li>
             )}
         </ul>

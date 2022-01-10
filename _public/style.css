@@ -22,25 +22,45 @@
   font-size: large;
 }
 
-/* .clientHeader {
-  /* padding: 5em;
-  margin: 2em; */
-/* } */
+.formContainer {
+  display: flex;
+  justify-content: center;
+  margin: 2rem;
+  font-size: large;
+}
 
-/* .listHeader {
-  padding: 2rem;
-} */
+.form {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: 2rem;
+  font-size: large;
+}
 
 /* objects */
+
 ul {
   list-style-type: none;
   padding: 2rem;
 }
 
 a {
+  font-family: Arial, Helvetica, sans-serif;
   border-bottom: solid 0.1px gray;
   text-decoration: none;
   color: black;
+}
+
+input {
+  font-size: large;
+  text-align: center;
+  font-family:Arial, Helvetica, sans-serif
+}
+
+button {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: large;
 }
 
 div > .backLink {
