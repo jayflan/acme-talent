@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const morgan = require('morgan');
+// const morgan = require('morgan');
 const { Client, Skill, ClientSkill } = require('./_db').models
 // const db = require('./_db');
 // const { Client, Skill, ClientSkills } = require ('./_db/index').models;
@@ -10,7 +10,7 @@ const { Client, Skill, ClientSkill } = require('./_db').models
 
 // app.use(express.urlencoded({ extended: false }))
 app.use(express.json()) 
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 
 
 //paths
