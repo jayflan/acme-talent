@@ -4,15 +4,21 @@ import { Link } from 'react-router-dom'
 import { deleteClientSkill, createClientSkill } from '../store'
 
 class Client extends Component {
-  constructor() {
-    super()
+
+  constructor(props) {
+    super(props)
     this.state = {
       clientSkillId: ''
     }  
-    this.handleChange = this.handleChange.bind(this)
-
+    this.handleChange = this.handleChange.bind(this);
+    this.clearLocalState = this.clearLocalState.bind(this);
   }
 
+clearLocalState() {
+  this.setState({
+    clientSkillId: ''
+  })
+}
 
 //Methods for handling change events (dropdown menu)
 handleChange(evt) {
@@ -22,13 +28,15 @@ handleChange(evt) {
 }  
   
   render() {
-
     const props = this.props
+    const stateSkills = props.state.skills
     const {history, deleteClientSkill, createClientSkill } = this.props;
     const client = props.client
-    const stateSkills = props.state.skills
-    //dropdown/select variable for adding skill to client button
-    let clientAddSkill = 0;
+
+  //REMEMBER: Due to multiple renders, need to include a return null on client-state to keep errors away
+  if(!client) {
+    return null
+  }
 
   //MESSY variables to arrange/merge state data
     //Array of ONLY client skills for this client in component state  
@@ -53,13 +61,8 @@ handleChange(evt) {
       acc.push(skill.Name)
       return acc
     },[])
-    
-  //REMEMBER: Due to multiple renders, need to include a return null on client-state to keep errors away
-    if(!client) {
-      return null
-    }
 
-
+    console.log(this.state)
     return (
       <div>
       <div className='clientContainer'>
@@ -80,12 +83,14 @@ handleChange(evt) {
         <div className='selectContainer'>
           <select onChange={ this.handleChange }>
               {
-                stateSkills.map((currSkill) =>  {           
+                stateSkills.map((currSkill, idx) =>  {           
+                  
                   if(!clientSkillArr.includes(currSkill.skillName)) return <option key={currSkill.id} name={'clientSkillId'} value={currSkill.id}>{currSkill.skillName}</option>
+                  
                  })    
               }
           </select>
-          <button className='addSkillBtn' disabled={!this.state.clientSkillId} onClick={()=>{ createClientSkill(client.id, this.state) }}>+</button>
+          <button className='addSkillBtn' disabled={!this.state.clientSkillId} onClick={()=>{ createClientSkill(client.id, this.state), this.clearLocalState() }}>+</button>
         </div>
         <div className='backLink'>
           <Link to='/'>back to homepage</Link>
