@@ -1,6 +1,7 @@
 const router = require('express').Router() //<--remember ()!!!!!!
 const { Client, Skill, ClientSkill } = require('../_db').models
-//GET all data from Client with Skill association
+
+//GET all data from Client with Skill association (may remove include soon)
 router.get('/clients', async(req, res, next) => {
   try {
     const data = await Client.findAll({
@@ -16,7 +17,7 @@ router.get('/clients', async(req, res, next) => {
     next(err);
   }
 })
-//Get all data from Skill model with Client association
+//Get all data from Skill model with Client association (may remove include soon)
 router.get('/skills', async(req, res, next) => {
   try {
     const data = await Skill.findAll({
@@ -54,6 +55,20 @@ router.get('/clientskills', async(req, res, next) => {
   try {
     const clientSkills = await ClientSkill.findAll() 
     res.send(clientSkills)
+  } catch(err) {
+    next(err)
+  }
+})
+//CREATE skill from client page dropdown (adding it to a client's skills)
+router.post('/:id', async(req, res, next) => {
+  try {
+    const skillObj = req.body
+    const { clientSkillId } = skillObj
+    const addSkill = await Skill.findByPk(clientSkillId)
+    const addClient = await Client.findByPk(req.params.id)
+    const newRecord = await addClient.addSkill(addSkill)
+    console.log(newRecord[0]) 
+  res.status(201).send(newRecord)
   } catch(err) {
     next(err)
   }

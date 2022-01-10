@@ -7,9 +7,11 @@ const { Client, Skill, ClientSkill } = require('./_db').models
 // const { Client, Skill, ClientSkills } = require ('./_db/index').models;
 
 //middleware
+
+// app.use(express.urlencoded({ extended: false }))
+app.use(express.json()) 
 app.use(morgan('dev'));
 
-// app.use(express.json) <--turned off until confirmed needed 
 
 //paths
 app.use(express.static(path.join(__dirname, '..', '_public')))

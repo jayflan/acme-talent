@@ -1,16 +1,34 @@
 import React, { Component} from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { deleteClientSkill } from '../store'
+import { deleteClientSkill, createClientSkill } from '../store'
 
 class Client extends Component {
+  constructor() {
+    super()
+    this.state = {
+      clientSkillId: ''
+    }  
+    this.handleChange = this.handleChange.bind(this)
 
+  }
+
+
+//Methods for handling change events (dropdown menu)
+handleChange(evt) {
+  this.setState({
+    clientSkillId: evt.target.value
+  })
+}  
+  
   render() {
 
     const props = this.props
-    const {history, deleteClientSkill } = this.props;
+    const {history, deleteClientSkill, createClientSkill } = this.props;
     const client = props.client
     const stateSkills = props.state.skills
+    //dropdown/select variable for adding skill to client button
+    let clientAddSkill = 0;
 
   //MESSY variables to arrange/merge state data
     //Array of ONLY client skills for this client in component state  
@@ -40,7 +58,8 @@ class Client extends Component {
     if(!client) {
       return null
     }
-    
+
+
     return (
       <div>
       <div className='clientContainer'>
@@ -59,14 +78,14 @@ class Client extends Component {
           })}
         </div>
         <div className='selectContainer'>
-          <select>
+          <select onChange={ this.handleChange }>
               {
                 stateSkills.map((currSkill) =>  {           
-                  if(!clientSkillArr.includes(currSkill.skillName)) return <option key={currSkill.id}>{currSkill.skillName}</option>
+                  if(!clientSkillArr.includes(currSkill.skillName)) return <option key={currSkill.id} name={'clientSkillId'} value={currSkill.id}>{currSkill.skillName}</option>
                  })    
               }
           </select>
-          <button className='addSkillBtn'>+</button>
+          <button className='addSkillBtn' disabled={!this.state.clientSkillId} onClick={()=>{ createClientSkill(client.id, this.state) }}>+</button>
         </div>
         <div className='backLink'>
           <Link to='/'>back to homepage</Link>
@@ -84,7 +103,8 @@ export default connect(
   },
   (dispatch, { history }) => {
     return {
-      deleteClientSkill: (id) => dispatch(deleteClientSkill(id, history))
+      deleteClientSkill: (id) => dispatch(deleteClientSkill(id, history)),
+      createClientSkill: (id, skill) => dispatch(createClientSkill(id, skill))
     }
   } 
 )(Client)

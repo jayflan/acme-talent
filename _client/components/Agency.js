@@ -8,6 +8,30 @@ class Agency extends Component {
   render() {
     const clients = this.props.clients
     const skills = this.props.skills
+    const clientSkills = this.props.clientSkills
+
+  //Merge function w/ both client names and clientSkills
+    const clientSkillsAndNamesArr = (objNames, objSkills) => {
+      return objSkills.reduce((acc, currSkill) => {
+        objNames.find((currClient) => {
+          if(currClient.id === currSkill.clientId) 
+            acc.push(
+            {clientId: currSkill.clientId, 
+              clientName: currClient.clientName}
+            )
+        })
+        return acc
+      }, [])
+    }
+  
+    //sum function for client skills
+    const sumClientSkills = (clientId, clientSkillsArr) => {
+      return clientSkillsArr.reduce((acc, currSkill) => {
+        currSkill.clientId === clientId ? acc++ : ''
+        return acc
+      }, 0)
+    }
+    console.log(sumClientSkills(1, clientSkills))
     return (
       <div className='listContainer'>
       <div>
@@ -16,7 +40,7 @@ class Agency extends Component {
             {clients.map(client => 
               <li key={client.id}>
                 <Link to={`/client/${client.id}`}>
-                  {`${client.clientName} (${client.skills.length})`}
+                  {`${client.clientName} (${sumClientSkills(client.id,clientSkills)})`}
                 </Link>
               </li>
             )}
